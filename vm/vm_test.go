@@ -1,4 +1,4 @@
-package vm8080
+package vm
 
 import (
 	"testing"
