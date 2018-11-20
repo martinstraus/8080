@@ -248,8 +248,8 @@ func isLXI(opcode Word) bool {
 	return uint8(opcode)&0xCF == 0x01
 }
 
-func (vm *VirtualMachine) dump() {
-	fmt.Printf("Mem: %d bytes PC=%X SP=%X S=%t;C=%t;Z=%t regs=%s HL=%X\n", len(vm.Mem), vm.PC, vm.SP, vm.SR.Sign, vm.SR.Carry, vm.SR.Zero, vm.Regs, vm.Regs.HL())
+func (vm *VirtualMachine) Dump() {
+	fmt.Printf("Mem: %d bytes PC=%Xh SP=%Xh S=%t;C=%t;Z=%t regs=%s HL=%Xh\n", len(vm.Mem), vm.PC, vm.SP, vm.SR.Sign, vm.SR.Carry, vm.SR.Zero, vm.Regs, vm.Regs.HL())
 }
 
 func (vm *VirtualMachine) inr(opcode Word) {
@@ -874,10 +874,10 @@ func (r *Register) OR(other *Register) {
 }
 
 func (r Register) String() string {
-	return fmt.Sprintf("%s=%X", r.Name, r.Value)
+	return fmt.Sprintf("%s=%Xh", r.Name, r.Value)
 }
 
-type Word uint8
+type Word byte
 
 type StatusRegister struct {
 	Sign           Flag // set if the result is negative
@@ -941,7 +941,7 @@ func MakeMemory() Memory {
 	return make(Memory, 1024*64, 1024*64)
 }
 
-const _64K = 1024 * 64
+const MEMORY_SIZE = 1024 * 64
 
 func makeDevices() map[uint8]Device {
 	return make(map[uint8]Device)
